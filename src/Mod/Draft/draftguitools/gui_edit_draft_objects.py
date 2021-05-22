@@ -103,15 +103,14 @@ class DraftWireGuiTools(GuiTools):
         pts[node_idx] = v
         obj.Points = pts
 
+    def get_edit_point_context_menu(self, edit_command, obj, node_idx):
+        return {
+            "delete point": lambda: self.handle_delete_point(edit_command, obj, node_idx),
+        }
 
-    def get_edit_point_context_menu(self, obj, node_idx):
-        actions = ["delete point"]
-        return actions
-    
-    def evaluate_context_menu_action(self, edit_command, obj, node_idx, action):
-        if action == "delete point":
-            self.delete_point(obj, node_idx)
-            edit_command.resetTrackers(obj)
+    def handle_delete_point(self, edit_command, obj, node_idx):
+        self.delete_point(obj, node_idx)
+        edit_command.resetTrackers(obj)
 
     def init_preview_object(self, obj):
         return trackers.wireTracker(obj.Shape)
